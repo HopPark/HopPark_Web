@@ -30,6 +30,16 @@
         <![endif]-->
         <script src="assets/js/jquery.min.js" type="text/javascript"></script>
 
+        <?php echo (str_contains(CURRENT_PAGE, "add_parking_lot.php") || str_contains(CURRENT_PAGE, "edit_parking_lot.php")) ?
+            '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
+          integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
+          crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
+            integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+            crossorigin=""></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>' : ''; ?>
+
     </head>
 
     <body>
@@ -46,7 +56,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="">HopPark Parking Lot Administrator Panel</a>
+                        <a class="navbar-brand" href="">HopPark Otopark Yönetim Paneli</a>
                     </div>
                     <!-- /.navbar-header -->
 
@@ -59,12 +69,12 @@
                                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                             </a>
                             <ul class="dropdown-menu dropdown-user">
-                                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                                <li><a href="profile.php"><i class="fa fa-user fa-fw"></i> Profil</a>
                                 </li>
-                                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Ayarlar</a>
                                 </li>
                                 <li class="divider"></li>
-                                <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Çıkış Yap</a>
                                 </li>
                             </ul>
                             <!-- /.dropdown-user -->
@@ -77,22 +87,33 @@
                         <div class="sidebar-nav navbar-collapse">
                             <ul class="nav" id="side-menu">
                                 <li>
-                                    <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                                    <a href="index.php"><i class="fa fa-dashboard fa-fw"></i> Kontrol Paneli</a>
                                 </li>
 
-                                <li <?php echo (CURRENT_PAGE == "parking_lots.php" || CURRENT_PAGE == "add_customer.php") ? 'class="active"' : ''; ?>>
-                                    <a href="#"><i class="fa fa-user-circle fa-fw"></i> My Parking Lots<span class="fa arrow"></span></a>
+                                <li <?php echo (CURRENT_PAGE == "parking_lots.php" || CURRENT_PAGE == "add_parking_lot.php") ? 'class="active"' : ''; ?>>
+                                    <a href="#"><i class="fa fa-user-circle fa-fw"></i> Otoparklarım<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>
-                                            <a href="parking_lots.php"><i class="fa fa-list fa-fw"></i>List all</a>
+                                            <a href="parking_lots.php"><i class="fa fa-list fa-fw"></i>Tümünü Listele</a>
                                         </li>
-                                    <li>
-                                        <a href="add_parking_lot.php"><i class="fa fa-plus fa-fw"></i>Add New</a>
-                                    </li>
+                                        <li>
+                                            <a href="parking_lots.php?active=1"><i class="fa fa-plus-circle fa-fw"></i>Aktif Otoparkları Listele</a>
+                                        </li>
+                                        <li>
+                                            <a href="parking_lots.php?active=-1"><i class="fa fa-minus-circle fa-fw"></i>Pasif Otoparkları Listele</a>
+                                        </li>
+                                        <li>
+                                            <a href="add_parking_lot.php"><i class="fa fa-plus fa-fw"></i>Yeni Ekle</a>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li>
-                                    <a href="sss.php"><i class="fa fa-users fa-fw"></i> Tbd</a>
+                                <li <?php echo (CURRENT_PAGE == "pl_logs.php" || CURRENT_PAGE == "pl_logs.php") ? 'class="active"' : ''; ?>>
+                                    <a href="#"><i class="fa fa-car fa-fw"></i> Otopark Kayıtları<span class="fa arrow"></span></a>
+                                    <ul class="nav nav-second-level">
+                                        <li>
+                                            <a href="pl_logs.php"><i class="fa fa-address-card-o fa-fw"></i> Otopark Seç</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>

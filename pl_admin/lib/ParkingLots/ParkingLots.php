@@ -21,13 +21,12 @@ class ParkingLots
     public function setOrderingValues()
     {
         $ordering = [
-            'id' => 'ID',
-            'pl_is_active' => 'Active',
-            'pl_name' => 'Name',
-            'pl_capacity' => 'Capacity',
-            'pl_size' => 'Size',
-            'pl_hourly_rate' => 'Hourly Rate',
-            'pl_balance' => 'Balance'
+            'pl_id' => 'ID',
+            'pl_is_active' => 'Aktiflik Durumu',
+            'pl_name' => 'İsim',
+            'pl_capacity' => 'Kapasite',
+            'pl_size' => 'Doluluk',
+            'pl_hourly_rate' => 'Saatlik Ücret'
         ];
 
         return $ordering;

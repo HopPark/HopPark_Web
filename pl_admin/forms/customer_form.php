@@ -2,12 +2,12 @@
     <div class="form-group">
         <label for="f_name">First Name *</label>
           <input type="text" name="f_name" value="<?php echo htmlspecialchars($edit ? $customer['f_name'] : '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="First Name" class="form-control" required="required" id = "f_name" >
-    </div> 
+    </div>
 
     <div class="form-group">
         <label for="l_name">Last name *</label>
         <input type="text" name="l_name" value="<?php echo htmlspecialchars($edit ? $customer['l_name'] : '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="Last Name" class="form-control" required="required" id="l_name">
-    </div> 
+    </div>
 
     <div class="form-group">
         <label>Gender * </label>
@@ -22,11 +22,11 @@
     <div class="form-group">
         <label for="address">Address</label>
           <textarea name="address" placeholder="Address" class="form-control" id="address"><?php echo htmlspecialchars(($edit) ? $customer['address'] : '', ENT_QUOTES, 'UTF-8'); ?></textarea>
-    </div> 
-    
+    </div>
+
     <div class="form-group">
         <label>State </label>
-           <?php $opt_arr = array("Maharashtra", "Kerala", "Madhya pradesh"); 
+           <?php $opt_arr = array("Maharashtra", "Kerala", "Madhya pradesh");
                             ?>
             <select name="state" class="form-control selectpicker" required>
                 <option value=" " >Please select your state</option>
@@ -42,7 +42,7 @@
 
                 ?>
             </select>
-    </div>  
+    </div>
     <div class="form-group">
         <label for="email">Email</label>
             <input  type="email" name="email" value="<?php echo htmlspecialchars($edit ? $customer['email'] : '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="E-Mail Address" class="form-control" id="email">
@@ -51,7 +51,7 @@
     <div class="form-group">
         <label for="phone">Phone</label>
             <input name="phone" value="<?php echo htmlspecialchars($edit ? $customer['phone'] : '', ENT_QUOTES, 'UTF-8'); ?>" placeholder="987654321" class="form-control"  type="text" id="phone">
-    </div> 
+    </div>
 
     <div class="form-group">
         <label>Date of birth</label>

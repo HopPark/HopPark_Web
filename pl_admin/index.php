@@ -15,7 +15,7 @@ include_once('includes/header.php');
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">Kontrol Paneli</h1>
         </div>
         <!-- /.col-lg-12 -->
     </div>
@@ -30,13 +30,13 @@ include_once('includes/header.php');
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge"><?php echo $numParkingLots; ?></div>
-                            <div>Number of My Parking Lots</div>
+                            <div>Otopark Sayım</div>
                         </div>
                     </div>
                 </div>
                 <a href="parking_lots.php">
                     <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
+                        <span class="pull-left">Detayları Gör</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
@@ -52,13 +52,13 @@ include_once('includes/header.php');
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">12</div>
-                            <div>New Tasks!</div>
+                            <div>Yeni Bildirimler!</div>
                         </div>
                     </div>
                 </div>
                 <a href="#">
                     <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
+                        <span class="pull-left">Detayları Gör</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>
