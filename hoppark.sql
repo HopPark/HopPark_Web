@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 03 Kas 2022, 15:54:58
+-- Üretim Zamanı: 05 Ara 2022, 01:19:08
 -- Sunucu sürümü: 10.4.19-MariaDB
 -- PHP Sürümü: 8.0.7
 
@@ -58,6 +58,37 @@ CREATE TABLE `cars` (
   `car_brand_id` int(11) NOT NULL,
   `car_plate` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `cars`
+--
+
+INSERT INTO `cars` (`car_id`, `car_owner_id`, `car_brand_id`, `car_plate`) VALUES
+(1, 1, 1, '34akz143'),
+(2, 2, 1, '34b8464');
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `car_parking_logs`
+--
+
+CREATE TABLE `car_parking_logs` (
+  `cpl_id` int(11) NOT NULL,
+  `cpl_car_id` int(11) NOT NULL,
+  `cpl_pl_id` int(11) NOT NULL,
+  `cpl_enter_date` datetime NOT NULL,
+  `cpl_exit_date` datetime NOT NULL,
+  `cpl_total_payment` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `car_parking_logs`
+--
+
+INSERT INTO `car_parking_logs` (`cpl_id`, `cpl_car_id`, `cpl_pl_id`, `cpl_enter_date`, `cpl_exit_date`, `cpl_total_payment`) VALUES
+(1, 1, 1, '2022-12-01 10:19:21', '2022-12-01 15:19:21', 100),
+(2, 2, 1, '2022-12-02 12:00:00', '2022-12-02 15:00:00', 60);
 
 -- --------------------------------------------------------
 
@@ -240,7 +271,24 @@ CREATE TABLE `parking_lot` (
 --
 
 INSERT INTO `parking_lot` (`pl_id`, `pl_owner_id`, `pl_is_active`, `pl_name`, `pl_city_id`, `pl_district_id`, `pl_address`, `pl_geojson`, `pl_capacity`, `pl_size`, `pl_hourly_rate`, `pl_balance`) VALUES
-(1, 3, 1, 'kadıköy-1', 34, 23, 'Kadıköy Merkez', '-', 50, 0, 25, 0);
+(1, 3, 1, 'Kadıköy Merkez Otopark', 34, 23, 'Kadıköy Merkez, 341 Sokak No:12', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Point\",\"coordinates\":[29.038685,40.992794]}}', 50, 0, 20, 0),
+(2, 3, 0, 'Bayrampaşa Kapalı Otopark-1', 34, 9, '5651 Sokak No:82', '{\"type\":\"Feature\",\"properties\":{},\"geometry\":{\"type\":\"Point\",\"coordinates\":[28.910351,41.040779]}}', 20, 0, 15, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı durumu `pl_log_view`
+-- (Asıl görünüm için aşağıya bakın)
+--
+CREATE TABLE `pl_log_view` (
+`cpl_id` int(11)
+,`cpl_pl_id` int(11)
+,`cpl_enter_date` datetime
+,`cpl_exit_date` datetime
+,`cpl_total_payment` int(11)
+,`car_plate` varchar(8)
+,`user_name` varchar(30)
+);
 
 -- --------------------------------------------------------
 
@@ -253,7 +301,7 @@ CREATE TABLE `pl_owners` (
   `plo_name` varchar(30) NOT NULL,
   `plo_mobile` varchar(10) NOT NULL,
   `plo_email` varchar(40) NOT NULL,
-  `plo_username` varchar(50) NOT NULL,
+  `plo_username` varchar(20) NOT NULL,
   `plo_password` varchar(255) NOT NULL,
   `admin_type` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -264,8 +312,28 @@ CREATE TABLE `pl_owners` (
 
 INSERT INTO `pl_owners` (`plo_id`, `plo_name`, `plo_mobile`, `plo_email`, `plo_username`, `plo_password`, `admin_type`) VALUES
 (1, '0', '0', '0', 'superadmin', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', 'super'),
-(2, '0', '0', '0', 'anand', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', 'admin'),
-(3, '0', '0', '0', 'admin', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', 'admin');
+(2, '0', '0', '0', 'admin2', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', 'admin'),
+(3, 'Mustafa Can', '5325059666', 'mustafacan@gmail.com', 'admin', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı durumu `pl_view`
+-- (Asıl görünüm için aşağıya bakın)
+--
+CREATE TABLE `pl_view` (
+`pl_id` int(11)
+,`pl_owner_id` int(11)
+,`pl_is_active` tinyint(1)
+,`pl_name` varchar(30)
+,`city_name` varchar(13)
+,`district_name` varchar(50)
+,`pl_address` varchar(50)
+,`pl_capacity` int(11)
+,`pl_size` int(11)
+,`pl_hourly_rate` int(11)
+,`pl_balance` int(11)
+);
 
 -- --------------------------------------------------------
 
@@ -276,11 +344,38 @@ INSERT INTO `pl_owners` (`plo_id`, `plo_name`, `plo_mobile`, `plo_email`, `plo_u
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `user_name` varchar(30) NOT NULL,
-  `user_password` varchar(15) NOT NULL,
+  `user_password` varchar(255) NOT NULL,
   `user_mobile` varchar(10) NOT NULL,
   `user_email` varchar(40) NOT NULL,
+  `user_tc` varchar(11) NOT NULL,
   `user_balance` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tablo döküm verisi `users`
+--
+
+INSERT INTO `users` (`user_id`, `user_name`, `user_password`, `user_mobile`, `user_email`, `user_tc`, `user_balance`) VALUES
+(1, 'burak kaya', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', '5323334545', 'burakkaya@gmail.com', '11111111111', 0),
+(2, 'ayşe candan', '59ed67cbd74b0a853e23c931be491f8b0d3a0db2', '5361231122', 'aysecandan@gmail.com', '11111111111', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `pl_log_view`
+--
+DROP TABLE IF EXISTS `pl_log_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pl_log_view`  AS SELECT `car_parking_logs`.`cpl_id` AS `cpl_id`, `car_parking_logs`.`cpl_pl_id` AS `cpl_pl_id`, `car_parking_logs`.`cpl_enter_date` AS `cpl_enter_date`, `car_parking_logs`.`cpl_exit_date` AS `cpl_exit_date`, `car_parking_logs`.`cpl_total_payment` AS `cpl_total_payment`, `cars`.`car_plate` AS `car_plate`, `users`.`user_name` AS `user_name` FROM ((`car_parking_logs` join `cars` on(`car_parking_logs`.`cpl_car_id` = `cars`.`car_id`)) join `users` on(`cars`.`car_owner_id` = `users`.`user_id`)) ORDER BY `car_parking_logs`.`cpl_id` ASC ;
+
+-- --------------------------------------------------------
+
+--
+-- Görünüm yapısı `pl_view`
+--
+DROP TABLE IF EXISTS `pl_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `pl_view`  AS SELECT `parking_lot`.`pl_id` AS `pl_id`, `parking_lot`.`pl_owner_id` AS `pl_owner_id`, `parking_lot`.`pl_is_active` AS `pl_is_active`, `parking_lot`.`pl_name` AS `pl_name`, `cities`.`city_name` AS `city_name`, `districts`.`district_name` AS `district_name`, `parking_lot`.`pl_address` AS `pl_address`, `parking_lot`.`pl_capacity` AS `pl_capacity`, `parking_lot`.`pl_size` AS `pl_size`, `parking_lot`.`pl_hourly_rate` AS `pl_hourly_rate`, `parking_lot`.`pl_balance` AS `pl_balance` FROM ((`parking_lot` join `cities` on(`parking_lot`.`pl_city_id` = `cities`.`city_id`)) join `districts` on(`parking_lot`.`pl_district_id` = `districts`.`district_id`)) ORDER BY `parking_lot`.`pl_id` ASC ;
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -300,6 +395,14 @@ ALTER TABLE `cars`
   ADD PRIMARY KEY (`car_id`),
   ADD UNIQUE KEY `car_plate` (`car_plate`),
   ADD KEY `car_owner_id` (`car_owner_id`);
+
+--
+-- Tablo için indeksler `car_parking_logs`
+--
+ALTER TABLE `car_parking_logs`
+  ADD PRIMARY KEY (`cpl_id`),
+  ADD KEY `cpl_car_id` (`cpl_car_id`),
+  ADD KEY `cpl_pl_id` (`cpl_pl_id`);
 
 --
 -- Tablo için indeksler `cities`
@@ -350,7 +453,13 @@ ALTER TABLE `admin_accounts`
 -- Tablo için AUTO_INCREMENT değeri `cars`
 --
 ALTER TABLE `cars`
-  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `car_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `car_parking_logs`
+--
+ALTER TABLE `car_parking_logs`
+  MODIFY `cpl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `cities`
@@ -368,7 +477,7 @@ ALTER TABLE `districts`
 -- Tablo için AUTO_INCREMENT değeri `parking_lot`
 --
 ALTER TABLE `parking_lot`
-  MODIFY `pl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `pl_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `pl_owners`
@@ -380,7 +489,7 @@ ALTER TABLE `pl_owners`
 -- Tablo için AUTO_INCREMENT değeri `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Dökümü yapılmış tablolar için kısıtlamalar
@@ -391,6 +500,13 @@ ALTER TABLE `users`
 --
 ALTER TABLE `cars`
   ADD CONSTRAINT `cars_ibfk_1` FOREIGN KEY (`car_owner_id`) REFERENCES `users` (`user_id`);
+
+--
+-- Tablo kısıtlamaları `car_parking_logs`
+--
+ALTER TABLE `car_parking_logs`
+  ADD CONSTRAINT `car_parking_logs_ibfk_1` FOREIGN KEY (`cpl_car_id`) REFERENCES `cars` (`car_id`),
+  ADD CONSTRAINT `car_parking_logs_ibfk_2` FOREIGN KEY (`cpl_pl_id`) REFERENCES `parking_lot` (`pl_id`);
 
 --
 -- Tablo kısıtlamaları `districts`
