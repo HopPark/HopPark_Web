@@ -107,7 +107,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li <?php echo (CURRENT_PAGE == "pl_logs.php" || CURRENT_PAGE == "pl_logs.php") ? 'class="active"' : ''; ?>>
+                                <li <?php echo (CURRENT_PAGE == "pl_logs.php" || str_contains(CURRENT_PAGE, "pl_log.php")) ? 'class="active"' : ''; ?>>
                                     <a href="#"><i class="fa fa-car fa-fw"></i> Otopark Kayıtları<span class="fa arrow"></span></a>
                                     <ul class="nav nav-second-level">
                                         <li>

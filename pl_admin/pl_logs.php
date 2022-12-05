@@ -70,7 +70,7 @@ include BASE_PATH . '/includes/header.php';
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-6">
-            <h1 class="page-header">Otopark Seçimi Yapın</h1>
+            <h1 class="page-header">Kayıtlar İçin Otopark Seçimi Yapın</h1>
         </div>
     </div>
     <?php include BASE_PATH . '/includes/flash_messages.php';?>

@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 		exit;
 	} else {
-		$_SESSION['login_failure'] = "Invalid user name or password";
+		$_SESSION['toast_msg'] = "Kullanıcı Adı ya da şifre hatalı!";
 		header('Location:login.php');
 		exit;
 	}

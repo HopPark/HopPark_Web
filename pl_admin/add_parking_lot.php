@@ -39,16 +39,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 
     $id = $db->insert ('parking_lot', $data);
-    if (!$id)
-        $_SESSION['failure'] = "Ekleme yapılırken hata alındı: " . $db->getLastError();
-
-
-    /*$data = Array (
-        'productAmount' => $product['productAmount'] - $data_to_update['amount'],
-    );
-    $db->where('productID', $data_to_update['productID']);
-    $stat = $db->update ('product', $data);*/
-
     if ($id) {
         $_SESSION['success'] = "Otopark başarılı bir şekilde eklendi";
     } else {
@@ -80,7 +70,7 @@ require_once 'includes/header.php';
 
     <div class="row">
      <div class="col-lg-12">
-            <h2 class="page-header">Harcama Oluştur</h2>
+            <h2 class="page-header">Yeni Otopark Ekle</h2>
         </div>
 
     </div>
