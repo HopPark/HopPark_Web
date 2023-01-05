@@ -28,7 +28,7 @@ if (!$page) {
 
 // If filter types are not selected we show latest added data first
 if (!$filter_col) {
-	$filter_col = 'cpl_pl_id';
+	$filter_col = 'cpl_id';
 }
 if (!$order_by) {
 	$order_by = 'Asc';
@@ -40,8 +40,7 @@ $db = getDbInstance();
 //Start building query according to input parameters.
 // If search string
 if ($search_string) {
-    $db->where('user_name', '%' . $search_string . '%', 'like');
-    $db->orwhere('car_plate', '%' . $search_string . '%', 'like');
+    $db->where('cpl_car_plate', '%' . $search_string . '%', 'like');
     $db->orwhere('cpl_enter_date', '%' . $search_string . '%', 'like');
     $db->orwhere('cpl_exit_date', '%' . $search_string . '%', 'like');
 }
@@ -106,7 +105,6 @@ if ($order_by == 'Desc') {
         <thead>
             <tr>
                 <th width="5%">ID</th>
-                <th width="10%">Kullanıcı</th>
                 <th width="5%">Plaka</th>
                 <th width="10%">Giriş Tarihi</th>
                 <th width="10%">Çıkış Tarihi</th>
@@ -117,8 +115,7 @@ if ($order_by == 'Desc') {
             <?php foreach ($rows as $row): ?>
             <tr>
                 <td><?php echo $row['cpl_id']; ?></td>
-                <td><?php echo xss_clean($row['user_name']); ?></td>
-                <td><?php echo xss_clean($row['car_plate']); ?></td>
+                <td><?php echo xss_clean($row['cpl_car_plate']); ?></td>
                 <td><?php echo xss_clean($row['cpl_enter_date']); ?></td>
                 <td><?php echo xss_clean($row['cpl_exit_date']); ?></td>
                 <td><?php echo xss_clean($row['cpl_total_payment']); ?></td>
