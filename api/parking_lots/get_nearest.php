@@ -35,6 +35,10 @@ class nearestListPL extends BaseController
                     $b = $lng - $geojson["geometry"]["coordinates"]["0"];
                     $distance = sqrt(($a**2) + ($b**2));
                     $distances[$key] = $distance;
+
+                    $rows[$key]["lat"] = $geojson["geometry"]["coordinates"]["1"];
+                    $rows[$key]["lng"] = $geojson["geometry"]["coordinates"]["0"];
+                    unset($rows[$key]["pl_geojson"]);
                 }
                 asort($distances);
 

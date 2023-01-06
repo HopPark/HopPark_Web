@@ -33,8 +33,16 @@ class listPL extends BaseController
                 $total_pages = $db->totalPages;
 
                 $data = array();
-                if($rows)
+                if($rows){
                     $data['success'] = true;
+                    foreach ($rows as $key => $row) {
+                        $geojson = json_decode($row["pl_geojson"], true);
+
+                        $rows[$key]["lat"] = $geojson["geometry"]["coordinates"]["1"];
+                        $rows[$key]["lng"] = $geojson["geometry"]["coordinates"]["0"];
+                        unset($rows[$key]["pl_geojson"]);
+                    }
+                }
                 else
                     $data['success'] = false;
                 $data['parking_lots'] = $rows;
