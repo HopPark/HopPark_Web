@@ -3,19 +3,29 @@ session_start();
 require_once 'includes/auth_validate.php';
 require_once './config/config.php';
 $del_id = filter_input(INPUT_POST, 'del_id');
+$passive = filter_input(INPUT_POST, 'passive');
  $db = getDbInstance();
 
 // Delete a user using user_id
 if ($del_id && $_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $data = Array (
-        'pl_is_active' => 0
-    );
+    if ($passive) {
+        $data = Array (
+            'pl_is_active' => $db->not()
+        );
+    } else {
+        $data = Array (
+            'pl_is_deleted' => 1
+        );
+    }
 
     $db->where('pl_id', $del_id);
     $stat = $db->update('parking_lot', $data);
     if ($stat) {
-        $_SESSION['success'] = "Otopark pasif hale getirilmiştir.";
+        if ($passive)
+            $_SESSION['success'] = "Otopark aktif/pasif hale getirilmiştir.";
+        else
+            $_SESSION['success'] = "Otopark silindi.";
     } else {
         $_SESSION['failure'] = "Hata alındı : " . $db->getLastError();
     }

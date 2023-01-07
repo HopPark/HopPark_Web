@@ -151,6 +151,7 @@ if ($order_by == 'Desc') {
                 <td><?php echo xss_clean($row['pl_balance']); ?></td>
                 <td>
                     <a href="edit_parking_lot.php?pl_id=<?php echo $row['pl_id']; ?>&operation=edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="#" class="btn btn-warning delete_btn" data-toggle="modal" data-target="#confirm-passive-<?php echo $row['pl_id']; ?>"><i class="glyphicon glyphicon-stop"></i></a>
                     <a href="#" class="btn btn-danger delete_btn" data-toggle="modal" data-target="#confirm-delete-<?php echo $row['pl_id']; ?>"><i class="glyphicon glyphicon-trash"></i></a>
                 </td>
             </tr>
@@ -166,7 +167,31 @@ if ($order_by == 'Desc') {
                             </div>
                             <div class="modal-body">
                                 <input type="hidden" name="del_id" id="del_id" value="<?php echo $row['pl_id']; ?>">
-                                <p>Otoparkı pasif hale getirmek istediğinize emin misiniz?</p>
+                                <p>Otoparkı silmek istediğinize emin misiniz?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-default pull-left">Evet</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Hayır</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- //Delete Confirmation Modal -->
+            <!-- Delete Confirmation Modal -->
+            <div class="modal fade" id="confirm-passive-<?php echo $row['pl_id']; ?>" role="dialog">
+                <div class="modal-dialog">
+                    <form action="delete_parking_lot.php" method="POST">
+                        <!-- Modal content -->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Onayla</h4>
+                            </div>
+                            <div class="modal-body">
+                                <input type="hidden" name="del_id" id="del_id" value="<?php echo $row['pl_id']; ?>">
+                                <input type="hidden" name="passive" id="passive" value="1">
+                                <p>Otoparkı aktif/pasif hale getirmek istediğinize emin misiniz?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default pull-left">Evet</button>
