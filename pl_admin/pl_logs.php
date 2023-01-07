@@ -79,7 +79,7 @@ include BASE_PATH . '/includes/header.php';
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Ara</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string ?? ''); ?>">
             <label for="input_order">Sırala</label>
             <select name="filter_col" class="form-control">
                 <?php

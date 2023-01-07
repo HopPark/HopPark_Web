@@ -5,8 +5,8 @@ require_once 'includes/auth_validate.php';
 
 
 // Sanitize if you want
-$pl_id = filter_input(INPUT_GET, 'pl_id', FILTER_VALIDATE_INT);
-$operation = filter_input(INPUT_GET, 'operation',FILTER_SANITIZE_STRING); 
+$pl_id = filter_input(INPUT_GET, 'pl_id');
+$operation = filter_input(INPUT_GET, 'operation'); 
 $edit = true;
 $db = getDbInstance();
 
@@ -42,8 +42,9 @@ if($pl_id)
 
     $totalCapacity = 10000;
 
-    $db = getDbInstance();
-    $cities = $db->get("cities");
+    //$db = getDbInstance();
+    //$cities = $db->get("cities");
+    $cities = array( array("city_id" => "34" , "city_name" => "İstanbul"));
     $db = getDbInstance();
     $districts = $db->get("districts");
 } else {

@@ -23,7 +23,7 @@ if ($del_id && $_SERVER['REQUEST_METHOD'] == 'POST') {
     $stat = $db->update('parking_lot', $data);
     if ($stat) {
         if ($passive)
-            $_SESSION['success'] = "Otopark aktif/pasif hale getirilmiştir.";
+            $_SESSION['success'] = "Seçilen otoparkın aktiflik durumu güncellendi.";
         else
             $_SESSION['success'] = "Otopark silindi.";
     } else {

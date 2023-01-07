@@ -12,7 +12,7 @@ $search_string = filter_input(INPUT_GET, 'search_string');
 $filter_col = filter_input(INPUT_GET, 'filter_col');
 $order_by = filter_input(INPUT_GET, 'order_by');
 $pl_id = filter_input(INPUT_GET, 'pl_id');
-if (!$pl_id) {
+if (!$pl_id || !filter_var($pl_id, FILTER_VALIDATE_INT) || $pl_id < 1) {
     header('location: pl_logs.php' );
     exit;
 }
@@ -33,6 +33,9 @@ if (!$filter_col) {
 if (!$order_by) {
 	$order_by = 'Asc';
 }
+$db = getDbInstance();
+$db->where('pl_id', $pl_id);
+$row2 = $db->getOne('parking_lot');
 
 //Get DB instance. i.e instance of MYSQLiDB Library
 $db = getDbInstance();
@@ -63,7 +66,12 @@ include BASE_PATH . '/includes/header.php';
 <div id="page-wrapper">
     <div class="row">
         <div class="col-lg-6">
-            <h1 class="page-header">Otopark Kayıt Listesi</h1>
+            <h1 class="page-header"><?php echo $row2['pl_name']; ?> Kayıt Listesi</h1>
+        </div>
+        <div class="col-lg-6">
+            <div class="page-action-links text-right">
+                <a href="add_pl_log.php?pl_id=<?php echo $pl_id; ?>" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Yeni Kayıt Ekle</a>
+            </div>
         </div>
     </div>
     <?php include BASE_PATH . '/includes/flash_messages.php';?>
@@ -71,9 +79,9 @@ include BASE_PATH . '/includes/header.php';
     <!-- Filters -->
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
-            <input type="hidden" class="form-control" id="pl_id" name="pl_id" value="<?php echo xss_clean($pl_id); ?>">
+            <input type="hidden" class="form-control" id="pl_id" name="pl_id" value="<?php echo xss_clean($pl_id ?? ''); ?>">
             <label for="input_search">Ara</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string ?? ''); ?>">
             <label for="input_order">Sırala</label>
             <select name="filter_col" class="form-control">
                 <?php
@@ -115,10 +123,10 @@ if ($order_by == 'Desc') {
             <?php foreach ($rows as $row): ?>
             <tr>
                 <td><?php echo $row['cpl_id']; ?></td>
-                <td><?php echo xss_clean($row['cpl_car_plate']); ?></td>
-                <td><?php echo xss_clean($row['cpl_enter_date']); ?></td>
-                <td><?php echo xss_clean($row['cpl_exit_date']); ?></td>
-                <td><?php echo xss_clean($row['cpl_total_payment']); ?></td>
+                <td><?php echo xss_clean($row['cpl_car_plate'] ?? ''); ?></td>
+                <td><?php echo xss_clean($row['cpl_enter_date'] ?? ''); ?></td>
+                <td><?php echo xss_clean($row['cpl_exit_date'] ?? ''); ?></td>
+                <td><?php echo xss_clean($row['cpl_total_payment'] ?? ''); ?></td>
             </tr>
             <!-- Delete Confirmation Modal -->
             <div class="modal fade" id="confirm-delete-<?php echo $row['pl_id']; ?>" role="dialog">

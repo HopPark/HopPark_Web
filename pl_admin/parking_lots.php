@@ -93,7 +93,7 @@ include BASE_PATH . '/includes/header.php';
     <div class="well text-center filter-form">
         <form class="form form-inline" action="">
             <label for="input_search">Ara</label>
-            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string); ?>">
+            <input type="text" class="form-control" id="input_search" name="search_string" value="<?php echo xss_clean($search_string ?? ''); ?>">
             <label for="input_order">Sırala</label>
             <select name="filter_col" class="form-control">
                 <?php
@@ -133,7 +133,6 @@ if ($order_by == 'Desc') {
                 <th width="5%">Kapasite</th>
                 <th width="5%">Doluluk</th>
                 <th width="7%">Saatlik ücret</th>
-                <th width="5%">Bakiye</th>
             </tr>
         </thead>
         <tbody>
@@ -148,7 +147,6 @@ if ($order_by == 'Desc') {
                 <td><?php echo xss_clean($row['pl_capacity']); ?></td>
                 <td><?php echo xss_clean($row['pl_size']); ?></td>
                 <td><?php echo xss_clean($row['pl_hourly_rate']); ?></td>
-                <td><?php echo xss_clean($row['pl_balance']); ?></td>
                 <td>
                     <a href="edit_parking_lot.php?pl_id=<?php echo $row['pl_id']; ?>&operation=edit" class="btn btn-primary"><i class="glyphicon glyphicon-edit"></i></a>
                     <a href="#" class="btn btn-warning delete_btn" data-toggle="modal" data-target="#confirm-passive-<?php echo $row['pl_id']; ?>"><i class="glyphicon glyphicon-stop"></i></a>

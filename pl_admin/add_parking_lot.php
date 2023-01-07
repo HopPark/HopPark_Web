@@ -3,9 +3,7 @@ session_start();
 require_once './config/config.php';
 require_once 'includes/auth_validate.php';
 
-//User ID for which we are performing operation
-$productID = filter_input(INPUT_GET, 'productID');
-$operation = filter_input(INPUT_GET, 'operation', FILTER_SANITIZE_STRING);
+$operation = filter_input(INPUT_GET, 'operation');
 ($operation == 'edit') ? $edit = true : $edit = false;
 //Serve POST request.
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -52,8 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $totalCapacity = 10000;
 
-$db = getDbInstance();
-$cities = $db->get("cities");
+//$db = getDbInstance();
+//$cities = $db->get("cities");
+$cities = array( array("city_id" => "34" , "city_name" => "İstanbul"));
 $db = getDbInstance();
 $districts = $db->get("districts");
 
