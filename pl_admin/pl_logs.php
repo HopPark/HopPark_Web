@@ -14,7 +14,7 @@ $order_by = filter_input(INPUT_GET, 'order_by');
 $active = filter_input(INPUT_GET, 'active');
 
 // Per page limit for pagination.
-$pagelimit = 15;
+$pagelimit = 25;
 
 // Get current page.
 $page = filter_input(INPUT_GET, 'page');
@@ -148,7 +148,7 @@ include BASE_PATH . '/includes/header.php';
 
     <!-- Pagination -->
     <div class="text-center">
-        <?php echo paginationLinks($page, $total_pages, 'parking_lots.php'); ?>
+        <?php echo paginationLinks($page, $total_pages, 'pl_logs.php'); ?>
     </div>
     <!-- //Pagination -->
 </div>

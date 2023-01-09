@@ -18,7 +18,7 @@ if (!$pl_id || !filter_var($pl_id, FILTER_VALIDATE_INT) || $pl_id < 1) {
 }
 
 // Per page limit for pagination.
-$pagelimit = 15;
+$pagelimit = 25;
 
 // Get current page.
 $page = filter_input(INPUT_GET, 'page');
@@ -117,6 +117,7 @@ if ($order_by == 'Desc') {
                 <th width="10%">Giriş Tarihi</th>
                 <th width="10%">Çıkış Tarihi</th>
                 <th width="10%">Ücret</th>
+                <th width="5%">Çıkış Yap</th>
             </tr>
         </thead>
         <tbody>
@@ -127,11 +128,14 @@ if ($order_by == 'Desc') {
                 <td><?php echo xss_clean($row['cpl_enter_date'] ?? ''); ?></td>
                 <td><?php echo xss_clean($row['cpl_exit_date'] ?? ''); ?></td>
                 <td><?php echo xss_clean($row['cpl_total_payment'] ?? ''); ?></td>
+                <td>
+                    <?php echo !$row['cpl_exit_date'] ? '<a href="#" class="btn btn-warning delete_btn" data-toggle="modal" data-target="#confirm-exit-'.$row['cpl_id'].'"><i class="glyphicon glyphicon-stop"></i></a>' : ''; ?>
+                </td>
             </tr>
             <!-- Delete Confirmation Modal -->
-            <div class="modal fade" id="confirm-delete-<?php echo $row['pl_id']; ?>" role="dialog">
+            <div class="modal fade" id="confirm-exit-<?php echo !$row['cpl_exit_date'] ? $row['cpl_id']: ''; ?>" role="dialog">
                 <div class="modal-dialog">
-                    <form action="delete_parking_lot.php" method="POST">
+                    <form action="exit_pl_log.php" method="POST">
                         <!-- Modal content -->
                         <div class="modal-content">
                             <div class="modal-header">
@@ -139,8 +143,9 @@ if ($order_by == 'Desc') {
                                 <h4 class="modal-title">Onayla</h4>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" name="del_id" id="del_id" value="<?php echo $row['pl_id']; ?>">
-                                <p>Otoparkı pasif hale getirmek istediğinize emin misiniz?</p>
+                                <input type="hidden" name="cpl_id" id="cpl_id" value="<?php echo !$row['cpl_exit_date'] ? $row['cpl_id']: ''; ?>">
+                                <input type="hidden" name="car_plate" id="car_plate" value="<?php echo !$row['cpl_exit_date'] ? $row['cpl_car_plate']: ''; ?>">
+                                <p>Aracın otoparktan çıkışının yapılmasını istediğinize emin misiniz?</p>
                             </div>
                             <div class="modal-footer">
                                 <button type="submit" class="btn btn-default pull-left">Evet</button>
@@ -158,7 +163,7 @@ if ($order_by == 'Desc') {
 
     <!-- Pagination -->
     <div class="text-center">
-    <?php echo paginationLinks($page, $total_pages, 'parking_lots.php'); ?>
+    <?php echo paginationLinks($page, $total_pages, 'pl_log.php'); ?>
     </div>
     <!-- //Pagination -->
 </div>
